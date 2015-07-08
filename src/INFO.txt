@@ -1,0 +1,37 @@
+How dungeons work...
+
+
+There is a sign with
+	-
+	-  [Dungeon]
+	-     f(floor)
+	-
+	
+	EX:
+	-
+	-  [Dungeon]
+	-	f(1)
+	-
+	
+	The floor is just the id but you get the point
+
+Right click the sign to try to join with your party
+
+IF the dungeon is in progress, join denied
+ELSE the party joins, the dungeon starts, joining disabled
+
+
+After join Dungeon starts
+
+dungeon enters waves
+Spawns new wave every (wavedelay) with (waveamount) of (custom mobs) until waves hit 0.
+
+dungeon enters boss
+After waves hit 0, boss appears with the a repeat of the last wave
+
+On boss death, dungeon enters end
+Chest spawns at (chest spawn) with (rewards) contents
+
+After the (kick timer) runs out, players are ejected from the dungeon to the entrance
+
+Dungeon becomes joinable again
