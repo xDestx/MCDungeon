@@ -1,0 +1,24 @@
+name: MCDungeon
+
+main: me.xDest.mcdungeon.MCDungeon
+
+version: 0.1
+commands:
+  spawnm:
+    description: used to spawn a custom mob (pre defined)
+    usage: /spawnm <custom mobtype> <level> (/spawnm CREEPER 2)
+  party:
+    description: Does all party commands
+    usage: /party <create - join - leave - kick - message > <party owner - player kicked - party message>
+  ct:
+    description: Chunk Tests
+    usage: /ct
+  gt:
+    description: Get pending tasks
+    usage: /gt
+  spawn:
+    description: Used to teleport to spawn (Must not be in party)
+    usage: /spawn
+  hunger:
+    description: Used to set food level
+    usage: /hunger <player> <foodlevel x/20>
