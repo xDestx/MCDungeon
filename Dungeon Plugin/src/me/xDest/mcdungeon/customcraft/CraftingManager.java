@@ -1,10 +1,5 @@
 package me.xDest.mcdungeon.customcraft;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.xDest.mcdungeon.Messenger;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,15 +7,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.material.MaterialData;
 
+@SuppressWarnings("deprecation")
 public class CraftingManager {
 	
-	private static List<ShapedRecipe> recipes = new ArrayList<ShapedRecipe>();
-	final static Material[] helmets = {Material.LEATHER_HELMET, Material.GOLD_HELMET, Material.IRON_HELMET, Material.CHAINMAIL_HELMET, Material.DIAMOND_HELMET};
-	final static Material[] chests = {Material.LEATHER_CHESTPLATE, Material.GOLD_CHESTPLATE, Material.IRON_CHESTPLATE, Material.CHAINMAIL_CHESTPLATE, Material.DIAMOND_CHESTPLATE};
-	final static Material[] legs = {Material.LEATHER_LEGGINGS, Material.GOLD_LEGGINGS, Material.IRON_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.DIAMOND_LEGGINGS};
-	final static Material[] boots = {Material.LEATHER_BOOTS, Material.GOLD_BOOTS, Material.IRON_BOOTS, Material.CHAINMAIL_BOOTS, Material.DIAMOND_BOOTS};
-	final static Material[] swords = {Material.STONE_SWORD, Material.GOLD_SWORD, Material.IRON_SWORD, Material.DIAMOND_SWORD, Material.WOOD_SWORD};
-	final static ItemStack lapis = new ItemStack(Material.INK_SACK, 1, (short)4);
+	final static Material[] helmets = {Material.LEATHER_HELMET, Material.GOLDEN_HELMET, Material.IRON_HELMET, Material.CHAINMAIL_HELMET, Material.DIAMOND_HELMET};
+	final static Material[] chests = {Material.LEATHER_CHESTPLATE, Material.GOLDEN_CHESTPLATE, Material.IRON_CHESTPLATE, Material.CHAINMAIL_CHESTPLATE, Material.DIAMOND_CHESTPLATE};
+	final static Material[] legs = {Material.LEATHER_LEGGINGS, Material.GOLDEN_LEGGINGS, Material.IRON_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.DIAMOND_LEGGINGS};
+	final static Material[] boots = {Material.LEATHER_BOOTS, Material.GOLDEN_BOOTS, Material.IRON_BOOTS, Material.CHAINMAIL_BOOTS, Material.DIAMOND_BOOTS};
+	final static Material[] swords = {Material.STONE_SWORD, Material.GOLDEN_SWORD, Material.IRON_SWORD, Material.DIAMOND_SWORD, Material.WOODEN_SWORD};
+	final static ItemStack lapis = new ItemStack(Material.INK_SAC, 1, (short)4);
 	final static MaterialData md = lapis.getData();
 	
 	private static boolean doneonce = false;

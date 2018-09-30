@@ -72,12 +72,10 @@ public class RectangularArea extends Area{
 			z1 = a;
 		}
 	//	Messenger.severe("Z1 " + z1 + " Z2 " + z2);
-		int repeater = 0;
 		for(int x = x1; x > (x2 - 16); x = x - 16) {
 			//Messenger.severe("CUSTOM DUNGEON CHUNKS: " + chunks.size() + " REPEATER: " + repeater);
 		    for(int z = z1; z > (z2 - 16); z = z - 16) {
 		        chunks.add(w.getChunkAt(new Location(w, x, 64, z)));
-		        repeater++;
 		    }
 		}
 

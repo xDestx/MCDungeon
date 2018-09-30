@@ -4,29 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.dungeon.Dungeon;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import me.xDest.mcdungeon.party.Party;
-import me.xDest.mcdungeon.party.PartyManager;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.xDest.mcdungeon.dungeon.Dungeon;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
+import me.xDest.mcdungeon.party.Party;
+import me.xDest.mcdungeon.party.PartyManager;
 
 public class MCDungeonListener implements Listener {
 
@@ -56,7 +53,7 @@ public class MCDungeonListener implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
-		if (p.getItemInHand().getType().equals(Material.IRON_AXE) && (event.getAction().toString().equals("RIGHT_CLICK_AIR") || event.getAction().toString().equals("RIGHT_CLICK_BLOCK"))) {
+		if (p.getInventory().getItemInMainHand().getType().equals(Material.IRON_AXE) && (event.getAction().toString().equals("RIGHT_CLICK_AIR") || event.getAction().toString().equals("RIGHT_CLICK_BLOCK"))) {
 			for (Entity e : p.getNearbyEntities(20, 20, 20)) {
 				if (!(e instanceof LivingEntity)) {
 					
@@ -69,7 +66,6 @@ public class MCDungeonListener implements Listener {
 			if (event.getClickedBlock().getState() instanceof Sign) {
 				//signs.containsKey(event.getClickedBlock().getLocation())
 				Sign s = (Sign) event.getClickedBlock().getState();
-				Location bl = s.getLocation();
 				Dungeon d = DungeonManager.getDungeon(s.getLine(2));
 				//Messenger.info("MADE IT TO INSIDE");
 				if (d.canJoin()) {

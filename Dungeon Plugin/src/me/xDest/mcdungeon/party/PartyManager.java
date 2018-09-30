@@ -2,21 +2,20 @@ package me.xDest.mcdungeon.party;
 
 import java.util.HashMap;
 import java.util.List;
-
-import me.xDest.mcdungeon.Messenger;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.xDest.mcdungeon.Messenger;
+
 public class PartyManager {
 
-	private static JavaPlugin plugin;
 	private static HashMap<String, Party> parties = new HashMap<String, Party>();
 	
 	public static void enable(JavaPlugin pl) {
-		plugin = pl;
 	}
 	
 	public static void createNew(Player owner) {
@@ -43,9 +42,9 @@ public class PartyManager {
 		if (parties.containsKey(ownern)) {
 			Party party = parties.get(ownern);
 			party.sendPartyCMessage("Party disbanded!");
-			List<String> members = party.getMemberList();
+			List<UUID> members = party.getMemberList();
 			try {
-				for (String p : members) {
+				for (UUID p : members) {
 					Messenger.info("Removing player " + p);
 					party.removeFromParty(Bukkit.getPlayer(p), owner);
 				}
@@ -58,7 +57,6 @@ public class PartyManager {
 	
 	public static void requestToJoin(Player sender, Player owner) {
 		String ownern = owner.getName();
-		String sendern = sender.getName();
 		boolean playerAlreadyInParty = false;
 		for (String s : parties.keySet()) {
 			Party p = parties.get(s);
@@ -135,9 +133,7 @@ public class PartyManager {
 	}
 	
 	public static String getMemAsString(Player sender) {
-		String sendern = sender.getName();
 		Party p = null;
-		boolean playerAlreadyInParty = false;
 		for (String s : parties.keySet()) {
 			p = parties.get(s);
 			if (p.hasPlayer(sender)) {

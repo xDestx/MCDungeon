@@ -1,42 +1,18 @@
 package me.xDest.mcdungeon.custommob;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.PotionManager;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import net.minecraft.server.v1_8_R3.EntitySpider;
-
-import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.Entity;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Spider;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
+
+import me.xDest.mcdungeon.PotionManager;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class CustomJockey implements CustomMob {
 
@@ -63,19 +39,14 @@ public class CustomJockey implements CustomMob {
 	
 	@Override
 	public void setMaxHealth(double hp) {
-		try {
-			sp.setMaxHealth(hp);
-			sp.setHealth(sp.getMaxHealth());
-			sk.setMaxHealth(hp);
-			sk.setHealth(sk.getMaxHealth());
-		} catch (NullPointerException e) {
-			
-		}
+		sp.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		sk.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		sp.setHealth(hp);
+		sk.setHealth(hp);
 	}
 	
 	@Override
 	public void setSpeed(int speed) {
-		
 		sp.addPotionEffect(PotionManager.getPotionEffect("SPEED", forever, speed));
 	}
 	
@@ -90,7 +61,6 @@ public class CustomJockey implements CustomMob {
 		sp.setMetadata("isspider", new FixedMetadataValue(DungeonManager.getPlugin(), effectdur));
 		sk = (Skeleton)w.spawnEntity(spawn, EntityType.SKELETON);
 		sk.setMetadata("dungeon", new FixedMetadataValue(DungeonManager.getPlugin(), true));
-		//Messenger.severe("Setting Spider hp to " + hp);
 		setMaxHealth(hp);
 		setDamage(strsp, strsk);
 		setSpeed(spd);
@@ -99,8 +69,7 @@ public class CustomJockey implements CustomMob {
 		else
 			setNormArmor();
 		setFireRes();
-		sp.setPassenger(sk);
-		//Messenger.broadcast("I THINK I DID IT " + hp);
+		sp.getPassengers().add(sk);
 	}
 
 	@Override
@@ -143,8 +112,8 @@ public class CustomJockey implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		ee.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		ee.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-		ee.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-		ee.setItemInHandDropChance(0f);
+		ee.setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
+		ee.setItemInMainHandDropChance(0f);
 		sp.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 		
 		EntityEquipment eek = sk.getEquipment();
@@ -156,7 +125,7 @@ public class CustomJockey implements CustomMob {
 		eek.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		eek.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		eek.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-		eek.setItemInHandDropChance(0f);
+		eek.setItemInMainHandDropChance(0f);
 		sk.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 	}
 	
@@ -173,28 +142,24 @@ public class CustomJockey implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.AIR));
 		ee.setLeggings(new ItemStack(Material.AIR));
 		ee.setBoots(new ItemStack(Material.AIR));
-		ee.setItemInHand(new ItemStack(Material.AIR));
+		ee.setItemInMainHand(new ItemStack(Material.AIR));
 		
 		EntityEquipment eek = sp.getEquipment();
 		eek.setHelmet(new ItemStack(Material.AIR));
 		eek.setChestplate(new ItemStack(Material.AIR));
 		eek.setLeggings(new ItemStack(Material.AIR));
 		eek.setBoots(new ItemStack(Material.AIR));
-		eek.setItemInHand(new ItemStack(Material.AIR));
+		eek.setItemInMainHand(new ItemStack(Material.AIR));
 	}
 
 
 	@Override
 	public void setDamage(int dmg) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void setProperties(World w, Location l, double hp, int dmg, int speed) {
-		// TODO Auto-generated method stub
-		
 	}
 	
     //public void forceFindTarget() {}

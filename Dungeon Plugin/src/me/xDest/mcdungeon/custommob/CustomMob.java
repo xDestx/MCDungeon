@@ -2,9 +2,6 @@ package me.xDest.mcdungeon.custommob;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 
 public interface CustomMob {
 

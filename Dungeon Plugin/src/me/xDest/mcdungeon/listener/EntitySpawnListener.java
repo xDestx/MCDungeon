@@ -5,13 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import me.xDest.mcdungeon.geo.RectangularArea;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Cow;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +16,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.xDest.mcdungeon.dungeon.DungeonManager;
+import me.xDest.mcdungeon.geo.RectangularArea;
 
 public class EntitySpawnListener implements Listener {
 
@@ -32,10 +31,10 @@ public class EntitySpawnListener implements Listener {
 	public EntitySpawnListener(JavaPlugin pl, List<RectangularArea> dfields) {
 		this.plugin = pl;
 		this.fields = dfields;
-		passivedrops.put(EntityType.COW, Material.RAW_BEEF);
-		passivedrops.put(EntityType.SHEEP, Material.WOOL);
-		passivedrops.put(EntityType.PIG, Material.PORK);
-		passivedrops.put(EntityType.CHICKEN, Material.RAW_CHICKEN);
+		passivedrops.put(EntityType.COW, Material.BEEF);
+		passivedrops.put(EntityType.SHEEP, Material.WHITE_WOOL);
+		passivedrops.put(EntityType.PIG, Material.PORKCHOP);
+		passivedrops.put(EntityType.CHICKEN, Material.CHICKEN);
 	}
 	
 	@EventHandler
@@ -57,7 +56,7 @@ public class EntitySpawnListener implements Listener {
 							ee.setChestplate(new ItemStack(Material.IRON_CHESTPLATE, 1));
 							ee.setLeggings(new ItemStack(Material.IRON_LEGGINGS, 1));
 							ee.setBoots(new ItemStack(Material.IRON_BOOTS, 1));
-							event.getEntity().setMaxHealth(70);
+							event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(70);
 							event.getEntity().setHealth(70);
 					
 						}

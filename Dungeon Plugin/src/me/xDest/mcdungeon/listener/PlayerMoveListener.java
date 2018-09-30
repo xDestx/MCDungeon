@@ -1,15 +1,15 @@
 package me.xDest.mcdungeon.listener;
 
 import java.util.List;
-
-import me.xDest.mcdungeon.PlayerMoveManager;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.xDest.mcdungeon.PlayerMoveManager;
 
 public class PlayerMoveListener implements Listener {
 
@@ -23,9 +23,9 @@ public class PlayerMoveListener implements Listener {
 	public void playerMove(PlayerMoveEvent event) {
 		if (event.getTo().equals(event.getPlayer().getLocation()))
 			return;
-		List<String> frozen = PlayerMoveManager.getFrozen();
-		for (String s : frozen) {
-			if (event.getPlayer().getName().equals(s)) {
+		List<UUID> frozen = PlayerMoveManager.getFrozen();
+		for (UUID s : frozen) {
+			if (event.getPlayer().getUniqueId().equals(s)) {
 				Bukkit.getPlayer(s).teleport(event.getPlayer());
 				break;
 			}

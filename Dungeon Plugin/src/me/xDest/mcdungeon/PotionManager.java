@@ -5,7 +5,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PotionManager {
 	
-	private static PotionEffect[] potions = new PotionEffect[40];
 	private static PotionEffectType[] potiontypes = new PotionEffectType[40];
 	public static final int FOREVER = 99999;
 	

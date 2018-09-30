@@ -1,19 +1,17 @@
 package me.xDest.mcdungeon.custommob;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.PotionManager;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import me.xDest.mcdungeon.PotionManager;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class CustomZombie implements CustomMob {
 
@@ -34,17 +32,12 @@ public class CustomZombie implements CustomMob {
 	
 	@Override
 	public void setMaxHealth(double hp) {
-		try {
-			z.setMaxHealth(hp);
-			z.setHealth(z.getMaxHealth());
-		} catch (NullPointerException e) {
-			
-		}
+		z.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		z.setHealth(hp);
 	}
 	
 	@Override
 	public void setSpeed(int speed) {
-		
 		z.addPotionEffect(PotionManager.getPotionEffect("SPEED", forever, speed));
 	}
 	
@@ -56,9 +49,7 @@ public class CustomZombie implements CustomMob {
 	public void spawnInWorld() {
 		z = (Zombie)w.spawnEntity(spawn, EntityType.ZOMBIE);
 		z.setMetadata("dungeon", new FixedMetadataValue(DungeonManager.getPlugin(), true));
-		z.setVillager(false);
 		z.setBaby(false);
-		//Messenger.severe("Setting zombie hp to " + hp);
 		setMaxHealth(hp);
 		setDamage(str);
 		setSpeed(spd);
@@ -67,17 +58,12 @@ public class CustomZombie implements CustomMob {
 		else
 			setNormArmor();
 		setFireRes();
-		//Messenger.broadcast("I THINK I DID IT " + hp);
 	}
 
 	@Override
 	public void setDamage(int dmg) {
-		try {
-			this.str = dmg;
-			z.addPotionEffect(PotionManager.getPotionEffect("INCREASE_DAMAGE", forever, dmg));
-		} catch (NullPointerException e) {
-			
-		}
+		this.str = dmg;
+		z.addPotionEffect(PotionManager.getPotionEffect("INCREASE_DAMAGE", forever, dmg));
 	}
 
 	@Override
@@ -107,8 +93,8 @@ public class CustomZombie implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		ee.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		ee.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-		ee.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-		ee.setItemInHandDropChance(0f);
+		ee.setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
+		ee.setItemInMainHandDropChance(0f);
 		z.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 	}
 	
@@ -124,7 +110,7 @@ public class CustomZombie implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.AIR));
 		ee.setLeggings(new ItemStack(Material.AIR));
 		ee.setBoots(new ItemStack(Material.AIR));
-		ee.setItemInHand(new ItemStack(Material.AIR));
+		ee.setItemInMainHand(new ItemStack(Material.AIR));
 	}
 
 

@@ -60,7 +60,7 @@ public class DungeonManager {
 		for (String s : dungeons.keySet()) {
 			if (dungeons.get(s).canJoin() == false) {
 				Messenger.info("Found that a dungeon in progress");
-				if (dungeons.get(s).containsPlayer(player.getName())) {
+				if (dungeons.get(s).containsPlayer(player.getUniqueId())) {
 					Messenger.info("Found that a player has died and is in a dungeon, " + player.getName());
 					dungeons.get(s).ejectPlayer(player);
 					Messenger.info("Found that a player has died and is in a dungeon, ejected him " + player.getName());
@@ -89,7 +89,7 @@ public class DungeonManager {
 		for (String s : dungeons.keySet()) {
 			if (dungeons.get(s).canJoin() == false) {
 				Messenger.info("Found that a dungeon in progress");
-				if (dungeons.get(s).containsPlayer(p.getName())) {
+				if (dungeons.get(s).containsPlayer(p.getUniqueId())) {
 					Messenger.info("Found that a player is in a dungeon, " + p.getName());
 					return true;
 				}

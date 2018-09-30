@@ -1,21 +1,18 @@
 package me.xDest.mcdungeon.custommob;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.PotionManager;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffectType;
+
+import me.xDest.mcdungeon.PotionManager;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class CustomSkeleton implements CustomMob {
 
@@ -36,17 +33,12 @@ public class CustomSkeleton implements CustomMob {
 	
 	@Override
 	public void setMaxHealth(double hp) {
-		try {
-			s.setMaxHealth(hp);
-			s.setHealth(s.getMaxHealth());
-		} catch (NullPointerException e) {
-			
-		}
+		s.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		s.setHealth(hp);
 	}
 	
 	@Override
 	public void setSpeed(int speed) {
-		
 		s.addPotionEffect(PotionManager.getPotionEffect("SPEED", forever, speed));
 	}
 	
@@ -111,8 +103,8 @@ public class CustomSkeleton implements CustomMob {
 		ee.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		ee.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
 		//ee.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-		ee.getItemInHand().addUnsafeEnchantment(Enchantment.ARROW_FIRE, (this.str / 2));
-		ee.setItemInHandDropChance(0f);
+		ee.getItemInMainHand().addUnsafeEnchantment(Enchantment.ARROW_FIRE, (this.str / 2));
+		ee.setItemInMainHandDropChance(0f);
 		s.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 	}
 	

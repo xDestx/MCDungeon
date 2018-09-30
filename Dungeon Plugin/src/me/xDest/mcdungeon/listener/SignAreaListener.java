@@ -1,23 +1,13 @@
 package me.xDest.mcdungeon.listener;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.dungeon.Dungeon;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import me.xDest.mcdungeon.party.PartyManager;
-
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,6 +36,7 @@ public class SignAreaListener implements Listener {
 					int x = Integer.parseInt(s.getLine(1));
 					int z = Integer.parseInt(s.getLine(2));
 					int y = (int) bl.getY();
+					@SuppressWarnings("deprecation")
 					GameMode newGm = GameMode.getByValue(Integer.parseInt(s.getLine(3)));
 					tp = new Location(w, x,y,z);
 					p.teleport(tp);

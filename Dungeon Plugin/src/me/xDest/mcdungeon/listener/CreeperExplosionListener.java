@@ -2,13 +2,9 @@ package me.xDest.mcdungeon.listener;
 
 import java.util.HashMap;
 
-import me.xDest.mcdungeon.Messenger;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Creeper;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +13,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
+
+import me.xDest.mcdungeon.Messenger;
 
 public class CreeperExplosionListener implements Listener {
 
@@ -41,7 +38,6 @@ public class CreeperExplosionListener implements Listener {
 			float p = event.getEntity().getMetadata("explosionpower").get(0).asFloat();
 			//Messenger.broadcast("ITS WORKING SO FAR");
 			final Location explloc = event.getLocation();
-			World w = event.getLocation().getWorld();
 			//Fireball fb = (Fireball) w.spawnEntity(explloc, EntityType.FIREBALL);
 			//fb.setIsIncendiary(false);
 			//fb.setYield(p);

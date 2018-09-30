@@ -1,41 +1,17 @@
 package me.xDest.mcdungeon.custommob;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.PotionManager;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import net.minecraft.server.v1_8_R3.EntitySpider;
-
-import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.Entity;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Spider;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
+
+import me.xDest.mcdungeon.PotionManager;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class CustomSpider implements CustomMob {
 
@@ -60,17 +36,12 @@ public class CustomSpider implements CustomMob {
 	
 	@Override
 	public void setMaxHealth(double hp) {
-		try {
-			s.setMaxHealth(hp);
-			s.setHealth(s.getMaxHealth());
-		} catch (NullPointerException e) {
-			
-		}
+		s.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		s.setHealth(hp);
 	}
 	
 	@Override
 	public void setSpeed(int speed) {
-		
 		s.addPotionEffect(PotionManager.getPotionEffect("SPEED", forever, speed));
 	}
 	
@@ -83,7 +54,6 @@ public class CustomSpider implements CustomMob {
 		s = (Spider)w.spawnEntity(spawn, EntityType.SPIDER);
 		s.setMetadata("dungeon", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 		s.setMetadata("isspider", new FixedMetadataValue(DungeonManager.getPlugin(), effectdur));
-		//Messenger.severe("Setting Spider hp to " + hp);
 		setMaxHealth(hp);
 		setDamage(str);
 		setSpeed(spd);
@@ -92,18 +62,13 @@ public class CustomSpider implements CustomMob {
 		else
 			setNormArmor();
 		setFireRes();
-		//Messenger.broadcast("I THINK I DID IT " + hp);
 	}
 
 	@Override
 	public void setDamage(int dmg) {
-		try {
-			this.str = dmg;
-			s.addPotionEffect(PotionManager.getPotionEffect("INCREASE_DAMAGE", forever, dmg));
-			s.addPotionEffect(PotionManager.getPotionEffect("INVISIBILITY", forever, 0));
-		} catch (NullPointerException e) {
-			
-		}
+		this.str = dmg;
+		s.addPotionEffect(PotionManager.getPotionEffect("INCREASE_DAMAGE", forever, dmg));
+		s.addPotionEffect(PotionManager.getPotionEffect("INVISIBILITY", forever, 0));
 	}
 
 	@Override
@@ -132,8 +97,8 @@ public class CustomSpider implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		ee.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		ee.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-		ee.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-		ee.setItemInHandDropChance(0f);
+		ee.setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
+		ee.setItemInMainHandDropChance(0f);
 		s.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 	}
 	
@@ -149,25 +114,21 @@ public class CustomSpider implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.AIR));
 		ee.setLeggings(new ItemStack(Material.AIR));
 		ee.setBoots(new ItemStack(Material.AIR));
-		ee.setItemInHand(new ItemStack(Material.AIR));
+		ee.setItemInMainHand(new ItemStack(Material.AIR));
 	}
 
 
 	@Override
 	public void setDamage(int dmgsp, int dmgsk) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void setProperties(World w, Location l, double hp, int dmgsp,
 			int dmgsk, int speed) {
-		// TODO Auto-generated method stub
 		
 	}
 	
-    //public void forceFindTarget() {}
 	
 
 }

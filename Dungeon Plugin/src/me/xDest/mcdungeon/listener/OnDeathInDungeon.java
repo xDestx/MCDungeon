@@ -1,21 +1,20 @@
 package me.xDest.mcdungeon.listener;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.xDest.mcdungeon.Messenger;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class OnDeathInDungeon implements Listener {
 
-	private JavaPlugin pl;
+
 	
 	public OnDeathInDungeon(JavaPlugin pl) {
-		this.pl = pl;
+		
 	}
 	
 	@EventHandler //Which means when they die??

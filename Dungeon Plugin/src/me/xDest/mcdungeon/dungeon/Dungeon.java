@@ -1,14 +1,8 @@
 package me.xDest.mcdungeon.dungeon;
 
-import java.awt.geom.Area;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.custommob.CustomMob;
-import me.xDest.mcdungeon.geo.RectangularArea;
-import me.xDest.mcdungeon.party.Party;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,12 +14,15 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import me.xDest.mcdungeon.Messenger;
+import me.xDest.mcdungeon.custommob.CustomMob;
+import me.xDest.mcdungeon.geo.RectangularArea;
+import me.xDest.mcdungeon.party.Party;
 
 public class Dungeon {
 
@@ -101,8 +98,8 @@ public class Dungeon {
 				spawnBoss();
 				Bukkit.getScheduler().scheduleSyncDelayedTask(DungeonManager.getPlugin(), bossWatch,20l);
 				try {
-					List<String> members = dungeonparty.getMemberList();
-					for (String p : members) {
+					List<UUID> members = dungeonparty.getMemberList();
+					for (UUID p : members) {
 						//Messenger.broadcast("Teleporting" + p + " to " + playerSpawn.toString());
 						Bukkit.getPlayer(p).sendMessage(ChatColor.DARK_PURPLE + "The Boss has spawned!");
 					}
@@ -121,8 +118,8 @@ public class Dungeon {
 					Bukkit.getScheduler().scheduleSyncDelayedTask(DungeonManager.getPlugin(), endTimer, 1200l);
 					spawnChest();
 					try {
-						List<String> members = dungeonparty.getMemberList();
-						for (String p : members) {
+						List<UUID> members = dungeonparty.getMemberList();
+						for (UUID p : members) {
 							//Messenger.broadcast("Teleporting" + p + " to " + playerSpawn.toString());
 							Bukkit.getPlayer(p).sendMessage(ChatColor.GOLD + "Congrats on the win! You will leave in 1 minute");
 						}
@@ -225,8 +222,8 @@ public class Dungeon {
 	
 	public void ejectPlayers(String msg) {
 		try {
-			List<String> members = dungeonparty.getMemberList();
-			for (String p : members) {
+			List<UUID> members = dungeonparty.getMemberList();
+			for (UUID p : members) {
 				//Messenger.broadcast("Teleporting" + p + " to " + playerSpawn.toString());
 				Bukkit.getPlayer(p).teleport(exitSpawn);
 				Bukkit.getPlayer(p).sendMessage(msg);
@@ -249,8 +246,8 @@ public class Dungeon {
 	
 	private void summonPlayers() {
 		try {
-			List<String> members = dungeonparty.getMemberList();
-			for (String p : members) {
+			List<UUID> members = dungeonparty.getMemberList();
+			for (UUID p : members) {
 				//Messenger.broadcast("Teleporting" + p + " to " + playerSpawn.toString());
 				Bukkit.getPlayer(p).teleport(playerSpawn);
 				Bukkit.getPlayer(p).sendMessage(ChatColor.RED + "You enter the dungeon");
@@ -317,13 +314,13 @@ public class Dungeon {
 					m.setSpawnLocation(l);
 					m.spawnInWorld();
 				}
-				w.playSound(l, Sound.ENDERDRAGON_GROWL, 7.0f, 0.5f);
+				w.playSound(l, Sound.ENTITY_ENDER_DRAGON_GROWL, 7.0f, 0.5f);
 			}
 			
 		}
 		try {
-			List<String> members = dungeonparty.getMemberList();
-			for (String p : members) {
+			List<UUID> members = dungeonparty.getMemberList();
+			for (UUID p : members) {
 				//Messenger.broadcast("Teleporting" + p + " to " + playerSpawn.toString());
 				Bukkit.getPlayer(p).sendMessage(ChatColor.RED + "MORE!!!");
 			}
@@ -352,11 +349,11 @@ public class Dungeon {
 		boss.setSpawnLocation(bossSpawn);
 		boss.spawnInWorld();
 		try {
-			List<String> members = dungeonparty.getMemberList();
-			for (String p : members) {
+			List<UUID> members = dungeonparty.getMemberList();
+			for (UUID p : members) {
 				Bukkit.getPlayer(p).sendMessage(ChatColor.RED + "THE BOSS HAS ARRIVED");
 			}
-			w.playSound(bossSpawn, Sound.WITHER_SPAWN, 7, 2);
+			w.playSound(bossSpawn, Sound.ENTITY_WITHER_SPAWN, 7, 2);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -420,11 +417,11 @@ public class Dungeon {
 		}, 10l);
 	}
 
-	public boolean containsPlayer(String name) {
+	public boolean containsPlayer(UUID id) {
 		if (dungeonparty == null) {
 			return false;
 		}
-		if (dungeonparty.getMemberList().contains(name))
+		if (dungeonparty.getMemberList().contains(id))
 			return true;
 		
 		return false;

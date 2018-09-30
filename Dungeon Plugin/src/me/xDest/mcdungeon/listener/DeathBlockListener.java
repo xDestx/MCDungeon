@@ -1,7 +1,5 @@
 package me.xDest.mcdungeon.listener;
 
-import me.xDest.mcdungeon.Messenger;
-
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +15,7 @@ public class DeathBlockListener implements Listener {
 		Player p = event.getPlayer();
 		Location l = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() - 1, p.getLocation().getZ());
 		if (l.getBlock().getType().equals(Material.BARRIER)) {
-			if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+			if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE) && !event.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
 				event.getPlayer().setHealth(0);
 			}
 		}

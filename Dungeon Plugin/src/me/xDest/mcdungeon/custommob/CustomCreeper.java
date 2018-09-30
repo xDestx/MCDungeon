@@ -1,20 +1,17 @@
 package me.xDest.mcdungeon.custommob;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.PotionManager;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
+
+import me.xDest.mcdungeon.PotionManager;
+import me.xDest.mcdungeon.dungeon.DungeonManager;
 
 public class CustomCreeper implements CustomMob {
 
@@ -35,17 +32,12 @@ public class CustomCreeper implements CustomMob {
 	
 	@Override
 	public void setMaxHealth(double hp) {
-		try {
-			c.setMaxHealth(hp);
-			c.setHealth(c.getMaxHealth());
-		} catch (NullPointerException e) {
-			
-		}
+		c.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
+		c.setHealth(hp);
 	}
 	
 	@Override
 	public void setSpeed(int speed) {
-		
 		c.addPotionEffect(PotionManager.getPotionEffect("SPEED", forever, speed));
 	}
 	
@@ -65,17 +57,12 @@ public class CustomCreeper implements CustomMob {
 		else
 			setNormArmor();
 		setFireRes();
-		//Messenger.broadcast("I THINK I DID IT " + hp);
 	}
 
 	@Override
 	public void setDamage(int dmg) {
-		try {
-			c.setMetadata("explosionpower", new FixedMetadataValue(DungeonManager.getPlugin(), dmg));
-			this.str = dmg;
-		} catch (NullPointerException e) {
-			
-		}
+		c.setMetadata("explosionpower", new FixedMetadataValue(DungeonManager.getPlugin(), dmg));
+		this.str = dmg;
 	}
 
 	@Override
@@ -104,8 +91,8 @@ public class CustomCreeper implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		ee.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
 		ee.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-		ee.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-		ee.setItemInHandDropChance(0f);
+		ee.setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
+		ee.setItemInMainHandDropChance(0f);
 		c.setPowered(true);
 		c.setMetadata("isboss", new FixedMetadataValue(DungeonManager.getPlugin(), true));
 	}
@@ -117,7 +104,7 @@ public class CustomCreeper implements CustomMob {
 		ee.setChestplate(new ItemStack(Material.AIR));
 		ee.setLeggings(new ItemStack(Material.AIR));
 		ee.setBoots(new ItemStack(Material.AIR));
-		ee.setItemInHand(new ItemStack(Material.AIR));
+		ee.setItemInMainHand(new ItemStack(Material.AIR));
 	}
 
 

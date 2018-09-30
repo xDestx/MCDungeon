@@ -5,11 +5,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
 import me.xDest.mcdungeon.customcraft.CraftingManager;
 import me.xDest.mcdungeon.customcraft.CustomCraftingListener;
 import me.xDest.mcdungeon.custommob.CustomMob;
-import me.xDest.mcdungeon.custommob.CustomSpider;
-import me.xDest.mcdungeon.custommob.CustomZombie;
 import me.xDest.mcdungeon.dungeon.DungeonCreator;
 import me.xDest.mcdungeon.dungeon.DungeonManager;
 import me.xDest.mcdungeon.listener.CreeperExplosionListener;
@@ -24,32 +42,6 @@ import me.xDest.mcdungeon.listener.SkeletonShot;
 import me.xDest.mcdungeon.listener.SpiderAttackListener;
 import me.xDest.mcdungeon.party.Party;
 import me.xDest.mcdungeon.party.PartyManager;
-import me.xDest.mcdungeon.villager.CustomVillager;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
-import org.bukkit.util.Vector;
 
 public class MCDungeon extends JavaPlugin {
 
@@ -128,7 +120,7 @@ public class MCDungeon extends JavaPlugin {
 						if(random.nextInt(100) <= 4)
 							randomInventory(p);
 
-						int x = (int) (p.getMaxHealth() * .075);
+						int x = (int) (p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * .075);
 						
 						p.setHealth(p.getHealth() - x);
 						if (p.getHealth() < 0) {
@@ -201,6 +193,7 @@ public class MCDungeon extends JavaPlugin {
 		p.playSound(loc, playsound, Float.parseFloat("" + vol), Float.parseFloat("" + pitch));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void createDungeons() {
 		//Spawns
 		List<Location> spawnlf1 = new ArrayList<Location>();
@@ -228,7 +221,7 @@ public class MCDungeon extends JavaPlugin {
 		f1r[3] = new ItemStack(Material.IRON_CHESTPLATE, 1);
 		f1r[4] = new ItemStack(Material.IRON_LEGGINGS, 1);
 		f1r[5] = new ItemStack(Material.IRON_BOOTS, 1);
-		f1r[6] = new ItemStack(Material.INK_SACK, 1, (short)4);
+		f1r[6] = new ItemStack(Material.INK_SAC, 1, (short)4);
 		//Setting Boss
 		CustomMob bof1 = DungeonCreator.loadCustom("ZOMBIE", -1, w, null);
 		//Bosses have negative tags, normal have positive
@@ -263,7 +256,7 @@ public class MCDungeon extends JavaPlugin {
 		f2r[3] = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
 		f2r[4] = new ItemStack(Material.DIAMOND_LEGGINGS, 1);
 		f2r[5] = new ItemStack(Material.DIAMOND_BOOTS, 1);
-		f2r[6] = new ItemStack(Material.INK_SACK, 3, (short)4);
+		f2r[6] = new ItemStack(Material.INK_SAC, 3, (short)4);
 		f2r[0].addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 6);
 		f2r[2].addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 		f2r[3].addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
@@ -415,7 +408,6 @@ public class MCDungeon extends JavaPlugin {
 	
 	public void doCoolTeleportThing(Player p) {
 		final Player player = p;
-		int duration = 40;
 		PlayerMoveManager.freeze(player);
 		//Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {@Override public void run() {PlayerMoveManager.unFreeze(player);}}, duration);
 		//player.addPotionEffect(PotionManager.getPotionEffect("SLOW", duration, 20));
@@ -426,7 +418,6 @@ public class MCDungeon extends JavaPlugin {
 		double zmod = 5;
 		double[] zzmod = {1, .9, .8, .7, .6, .4, .3, .1, .1, .1};
 		double[] xxmod = {.1, .1, .1, .3, .4, .6, .7, .8, .9, 1};
-		List<Location> strikes = new ArrayList<Location>();
 		HashMap<Integer,Location[]> strikeshh = new HashMap<Integer,Location[]>();
 		for (int i = 0; i < 10; i++) {
 			Location[] ls = {new Location(w,ploc.getX() + xmod, y, ploc.getZ() + zmod), new Location(w,ploc.getX() - xmod, y, ploc.getZ() - zmod), new Location(w,ploc.getX() + zmod, y, ploc.getZ() - xmod),new Location(w,ploc.getX() - zmod, y, ploc.getZ() + xmod),  };
@@ -485,6 +476,7 @@ public class MCDungeon extends JavaPlugin {
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if (!(sender instanceof Player))

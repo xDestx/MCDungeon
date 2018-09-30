@@ -1,19 +1,9 @@
 package me.xDest.mcdungeon.listener;
 
-import me.xDest.mcdungeon.Messenger;
-import me.xDest.mcdungeon.dungeon.Dungeon;
-import me.xDest.mcdungeon.dungeon.DungeonManager;
-import me.xDest.mcdungeon.party.PartyManager;
-
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.xDest.mcdungeon.Messenger;
 
 public class SignBuyListener implements Listener {
 
@@ -34,17 +26,16 @@ public class SignBuyListener implements Listener {
 		plugin = pl;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (!event.getAction().toString().equals("RIGHT_CLICK_BLOCK"))
 			return;
 		Player p = event.getPlayer();
-		World w = p.getWorld();
 		try {
 			if (event.getClickedBlock().getState() instanceof Sign) {
 				//signs.containsKey(event.getClickedBlock().getLocation())
 				Sign s = (Sign) event.getClickedBlock().getState();
-				Location bl = s.getLocation();
 				//Messenger.info("MADE IT TO INSIDE");
 				if (s.getLine(0).equals("[Trade]")) {// Line 0 [Area] //Line 1 Lapis Cost //Line Item Material z //Line 3 Info -- 
 					int cost = 0;
@@ -90,11 +81,11 @@ public class SignBuyListener implements Listener {
 						//p.sendMessage(ChatColor.DARK_RED + "Invalid trade");
 						PlayerInventory pInv = p.getInventory();
 						String type = "";
-						if (!pInv.containsAtLeast(new ItemStack(Material.INK_SACK, 1, (short) 4), cost) && (!pInv.containsAtLeast(new ItemStack(Material.GOLD_INGOT), cost * 5))) {
+						if (!pInv.containsAtLeast(new ItemStack(Material.INK_SAC, 1, (short) 4), cost) && (!pInv.containsAtLeast(new ItemStack(Material.GOLD_INGOT), cost * 5))) {
 							p.sendMessage(ChatColor.DARK_GREEN + "You don't have enough lapis or gold.");
 							return;
 						} else {
-							if (pInv.containsAtLeast(new ItemStack(Material.INK_SACK, 1, (short) 4), cost)) {
+							if (pInv.containsAtLeast(new ItemStack(Material.INK_SAC, 1, (short) 4), cost)) {
 								type = "LAPIS";
 							} else {
 								type = "GOLD";
@@ -106,7 +97,7 @@ public class SignBuyListener implements Listener {
 						} else {
 							pInv.addItem(item);
 							if (type.equals("LAPIS")) {
-								pInv.removeItem(new ItemStack(Material.INK_SACK, cost, (short) 4));
+								pInv.removeItem(new ItemStack(Material.INK_SAC, cost, (short) 4));
 							} else {
 								pInv.removeItem(new ItemStack(Material.GOLD_INGOT, cost * 5));
 							}
@@ -116,11 +107,11 @@ public class SignBuyListener implements Listener {
 					}
 					PlayerInventory pInv = p.getInventory();
 					String type = "";
-					if (!pInv.containsAtLeast(new ItemStack(Material.INK_SACK, 1, (short) 4), cost) && (!pInv.containsAtLeast(new ItemStack(Material.GOLD_INGOT), cost * 5))) {
+					if (!pInv.containsAtLeast(new ItemStack(Material.INK_SAC, 1, (short) 4), cost) && (!pInv.containsAtLeast(new ItemStack(Material.GOLD_INGOT), cost * 5))) {
 						p.sendMessage(ChatColor.DARK_GREEN + "You don't have enough lapis or gold.");
 						return;
 					} else {
-						if (pInv.containsAtLeast(new ItemStack(Material.INK_SACK, 1, (short) 4), cost)) {
+						if (pInv.containsAtLeast(new ItemStack(Material.INK_SAC, 1, (short) 4), cost)) {
 							type = "LAPIS";
 						} else {
 							type = "GOLD";
@@ -187,7 +178,7 @@ public class SignBuyListener implements Listener {
 					} else {
 						pInv.addItem(item);
 						if (type.equals("LAPIS")) {
-							pInv.removeItem(new ItemStack(Material.INK_SACK, cost, (short) 4));
+							pInv.removeItem(new ItemStack(Material.INK_SAC, cost, (short) 4));
 						} else {
 							pInv.removeItem(new ItemStack(Material.GOLD_INGOT, cost * 5));
 						}

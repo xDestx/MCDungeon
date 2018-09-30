@@ -2,57 +2,57 @@ package me.xDest.mcdungeon.party;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.xDest.mcdungeon.Messenger;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import me.xDest.mcdungeon.Messenger;
+
 public class Party {
 
-	private List<String> members = new ArrayList<String>();
-	private List<String> requestlist = new ArrayList<String>();
+	private List<UUID> members = new ArrayList<UUID>();
+	private List<UUID> requestlist = new ArrayList<UUID>();
 	private Player owner;
 	private final String prefix = ChatColor.GOLD + "[PARTY] " + ChatColor.GRAY;
 	
 	public Party(Player owner){
 		this.owner = owner;
-		members.add(owner.getName());
+		members.add(owner.getUniqueId());
 		owner.sendMessage(prefix + " Party Created!");
 		}
 	
 	
-	public void addToParty(String str) {
+	public void addToParty(UUID id) {
 		
-		members.add(str);
-		sendPartyCMessage(str + " has joined!");
+		members.add(id);
+		sendPartyCMessage(Bukkit.getPlayer(id).getDisplayName() + " has joined!");
 	}
 	
 	public void requestJoin(Player requester) {
-		if (playerIsInParty(requester.getName()))
+		if (playerIsInParty(requester.getUniqueId()))
 			return;
-		if (requestlist.contains(requester.getName()))
+		if (requestlist.contains(requester.getUniqueId()))
 			return;
-		owner.sendMessage(prefix + requester.getName() + " Wants to join your party...Type /party accept " + requester.getName() + " to allow them to join");
-		requestlist.add(requester.getName());
+		owner.sendMessage(prefix + requester.getDisplayName() + " wants to join your party! Type /party accept " + requester.getName() + " to allow them to join");
+		requestlist.add(requester.getUniqueId());
 	}
 	
-	public List<String> getMemberList() {
-		for (String s : members) {
-			Messenger.info("Player: " + s);
+	public List<UUID> getMemberList() {
+		for (UUID id : members) {
+			Messenger.info("Player: " + Bukkit.getPlayer(id).getDisplayName());
 		}
 		if (members.isEmpty())
 			return null;
-		final List<String> returned = members;
-		return returned;
+		return members;
 	}
 	
 	public String getMemberListAsString() {
 		String returned = "";
 		try {
-		for (String s : members) {
-			returned = returned + s + ", ";
+		for (UUID s : members) {
+			returned = returned + Bukkit.getPlayer(s).getDisplayName() + ", ";
 		}
 		returned = returned.substring(0, returned.length() -2);
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class Party {
 		return returned;
 	}
 	
-	public List<String> getRequestList() {
+	public List<UUID> getRequestList() {
 		if (requestlist.isEmpty())
 			return null;
 		return requestlist;
@@ -71,8 +71,8 @@ public class Party {
 	public String getRequestListAsString() {
 		String returned = "";
 		try {
-		for (String s : requestlist) {
-			returned = returned + s + ", ";
+		for (UUID s : requestlist) {
+			returned = returned + Bukkit.getPlayer(s) + ", ";
 		}
 		returned = returned.substring(0, returned.length() -2);
 		} catch (Exception e) {
@@ -83,9 +83,9 @@ public class Party {
 	
 	public void confirmRequest(Player sender, Player confirmed) {
 		if (sender.getName().equals(owner.getName())) {
-			if (requestlist.contains(confirmed.getName())) {
-				requestlist.remove(confirmed.getName());
-				addToParty(confirmed.getName());
+			if (requestlist.contains(confirmed.getUniqueId())) {
+				requestlist.remove(confirmed.getUniqueId());
+				addToParty(confirmed.getUniqueId());
 				confirmed.sendMessage(prefix + " You have joined the party");
 			}
 		}
@@ -96,7 +96,7 @@ public class Party {
 	}
 	
 	public boolean hasPlayer(Player player) {
-		if (members.contains(player.getName()))
+		if (members.contains(player.getUniqueId()))
 			return true;
 		return false;
 	}
@@ -108,9 +108,9 @@ public class Party {
 		if (sender == null) {
 			Messenger.severe("A null player tried to kick");
 		}
-		if(!playerIsInParty(p.getName()))
+		if(!playerIsInParty(p.getUniqueId()))
 			return;
-		members.remove(p.getName());
+		members.remove(p.getUniqueId());
 		if (p == owner) {
 			if (members.isEmpty()) {
 				PartyManager.removeParty(owner);
@@ -125,21 +125,21 @@ public class Party {
 		
 	}
 	
-	public boolean playerIsInParty(String p) {
+	public boolean playerIsInParty(UUID p) {
 		if (members.contains(p))
 			return true;
 		return false;
 	}
 	
 	public void sendPartyMessage(Player sender, String msg) {
-		for (String s : members) {
-			Bukkit.getPlayer(s).sendMessage(prefix + sender.getName() + ": " + msg);
+		for (UUID s : members) {
+			Bukkit.getPlayer(s).sendMessage(prefix + sender.getDisplayName() + ": " + msg);
 		}
 	}
 	
 	public void sendPartyCMessage(String msg) {
 		try {
-			for (String s : members) {
+			for (UUID s : members) {
 				Bukkit.getPlayer(s).sendMessage(prefix + msg);
 			}
 		} catch (Exception e) {
